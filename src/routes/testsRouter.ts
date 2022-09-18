@@ -7,8 +7,8 @@ import { writeNewTest, readTestsByDiscipline, readTestsByTeacher } from '../cont
 const testsRouter = Router();
 
 testsRouter.post('/tests', schemaValidator(testSchema), tokenValidation, writeNewTest); //schemaValidator(testSchema)
-testsRouter.get('/tests/:discipline', tokenValidation, readTestsByDiscipline);
-testsRouter.get('/tests/:teacher', tokenValidation, readTestsByTeacher);
+testsRouter.get('/tests/discipline/:discipline', tokenValidation, readTestsByDiscipline);
+testsRouter.get('/tests/teacher/:teacher', tokenValidation, readTestsByTeacher);
 
 
 export default testsRouter;

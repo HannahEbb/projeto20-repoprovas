@@ -7,13 +7,35 @@ export async function findCategoryByName(category: string) {
     return result;
 }
 
+
 export async function findDisciplineByName(discipline: string) {
     const result = await prisma.disciplines.findUnique({where: { name: discipline }});
     return result;
 }
 
+export async function findDisciplineByParam(disciplineName: string) { //tentei filtrar a disciplina assim para não "chumbar" os nomes, mas não retornava nada.
+    const result = await prisma.categories.findFirst({
+        where: { 
+            name: {
+                startsWith: disciplineName,
+                mode: 'insensitive'
+            } }
+        });
+    return result;
+}
+
 export async function findTeacherByName(teacher: string) {
     const result = await prisma.teachers.findUnique({where: { name: teacher }});
+    return result;
+}
+
+export async function findTeacherByParam(teacherName: string) {
+    const result = await prisma.categories.findFirst({
+        where: { 
+            name: {
+                startsWith: teacherName,
+                mode: 'insensitive',
+            } }});
     return result;
 }
 

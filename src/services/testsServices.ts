@@ -44,7 +44,9 @@ export async function create(name: string, pdfUrl: string, category: string, dis
 }
 
 export async function getTestsByDiscipline(discipline: string) {
-    const disciplineIsRegistered = await testsRepositories.findDisciplineByName(discipline);
+    const disciplineName: any = await disciplineNameTranslate(discipline);
+    
+    const disciplineIsRegistered = await testsRepositories.findDisciplineByName(disciplineName);
     if(!disciplineIsRegistered) {
         throw { type: 'not_found', message: 'No discipline registered with this name!' };
     }
@@ -60,8 +62,39 @@ export async function getTestsByDiscipline(discipline: string) {
 
 }
 
+export async function disciplineNameTranslate(discipline: string) {
+    if(discipline === 'html-e-css'){
+        const disciplineName : string = 'HTML e CSS';
+        return disciplineName; 
+    } 
+    else if(discipline === 'javascript'){
+        const disciplineName : string= 'JavaScript';
+        return disciplineName; 
+    } 
+    else if(discipline === 'react'){
+        const disciplineName : string = 'React';
+        return disciplineName; 
+    } 
+    else if(discipline === 'humildade'){
+        const disciplineName : string = 'Humildade';
+        return disciplineName; 
+    } 
+    else if(discipline === 'planejamento'){
+        const disciplineName : string = 'Planejamento';
+        return disciplineName; 
+    } 
+    else if(discipline === 'autoconfianca' || 'autoconfiança'){
+        const disciplineName : string = 'Autoconfiança';
+        return disciplineName; 
+    }  else {
+        throw { type: 'not_found', message: 'No discipline registered with this name.' };
+    }
+}
+
 export async function getTestsByTeacher(teacher: string) {
-    const teacherIsRegistered = await testsRepositories.findTeacherByName(teacher);
+    const teacherName: any = await teacherNameTranslate(teacher);
+
+    const teacherIsRegistered = await testsRepositories.findTeacherByName(teacherName);
     if(!teacherIsRegistered) {
         throw { type: 'not_found', message: 'No teacher registered with this name!' };
     }
@@ -75,4 +108,18 @@ export async function getTestsByTeacher(teacher: string) {
 
     return testsTeacher; //manda para o controller
 
+}
+
+export async function teacherNameTranslate(teacher: string) {
+    if(teacher === 'diego-pinho'){
+        const teacherName : string = 'Diego Pinho';
+        return teacherName; 
+    } 
+    else if(teacher === 'bruna-hamori'){
+        const teacherName : string= 'Bruna Hamori';
+        return teacherName; 
+    } else {
+        throw { type: 'not_found', message: 'No teacher registered with this name.' };
+    }
+    
 }
