@@ -17,7 +17,7 @@ export async function findTeacherByName(teacher: string) {
     return result;
 }
 
-export async function findTeachersDiscipliensByIds(disciplineId: number, teacherId: number) {
+export async function findTeachersDisciplineByIds(disciplineId: number, teacherId: number) {
     const result = await prisma.teachersDisciplines.findFirst({
         where: { teacherId, disciplineId }
     });
@@ -29,3 +29,65 @@ export async function insertTest(testData: ITestData) {
       data: { ...testData}
     });
 }
+
+export async function findTestsByDiscipline(disciplineId: number) {
+    const result = await prisma.disciplines.findMany({
+        where: {id: disciplineId},
+        select: {
+            name: true,
+            TeachersDisciplines:{
+                select: {
+                    Tests: { distinct: ['categoryId'],
+                    select: {
+                        category: {
+                            select: {
+                                id: true,
+                                name: true,
+                                Tests: {
+                                    select:{
+                                        name: true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    orderBy: [{category: {name: "desc"}}]
+                    }
+                }
+            }
+        }     
+    }
+);
+return result;
+}
+
+export async function findTestsByTeacher(teacherId: number) {
+    const result = await prisma.teachers.findMany({
+        where: {id: teacherId},
+        select: {
+            name: true,
+            TeachersDisciplines:{
+                select: {
+                    Tests: { distinct: ['categoryId'],
+                    select: {
+                        category: {
+                            select: {
+                                id: true,
+                                name: true,
+                                Tests: {
+                                    select:{
+                                        name: true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    orderBy: [{category: {name: "desc"}}]
+                    }
+                }
+            }
+        }
+    });
+    return result;
+}
+
