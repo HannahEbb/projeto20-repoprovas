@@ -45,6 +45,10 @@ export async function create(name: string, pdfUrl: string, category: string, dis
 
 export async function getTestsByDiscipline(discipline: string) {
     const disciplineName: any = await disciplineNameTranslate(discipline);
+
+    if(disciplineName.length === 0) {
+        throw { type: 'not_found', message: 'No discipline registered with this name!' };
+    }
     
     const disciplineIsRegistered = await testsRepositories.findDisciplineByName(disciplineName);
     if(!disciplineIsRegistered) {
@@ -75,7 +79,7 @@ export async function disciplineNameTranslate(discipline: string) {
         const disciplineName : string = 'React';
         return disciplineName; 
     } 
-    else if(discipline === 'humildade'){
+   else if(discipline === 'humildade'){
         const disciplineName : string = 'Humildade';
         return disciplineName; 
     } 
@@ -87,7 +91,7 @@ export async function disciplineNameTranslate(discipline: string) {
         const disciplineName : string = 'Autoconfiança';
         return disciplineName; 
     }  else {
-        throw { type: 'not_found', message: 'No discipline registered with this name.' };
+        throw { type: 'not_found', message: 'No discipline registered with this name!' };
     }
 }
 

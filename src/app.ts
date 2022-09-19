@@ -5,8 +5,6 @@ import { errorHandlerMiddleware } from './middlewares/errorHandler';
 import authRouter from './routes/authRoutes';
 import testsRouter from './routes/testsRouter';
 
-import dotenv from 'dotenv';
-dotenv.config({ path: '.env' });
 
 const app = express();
 app.use(json());
@@ -15,8 +13,5 @@ app.use(authRouter);
 app.use(testsRouter);
 app.use(errorHandlerMiddleware);
 
-const port = Number(process.env.PORT) || 4003;
-app.listen(port, () => {
-  console.log(`Server is up and running on port ${port}`);
-});
+export default app;
 
